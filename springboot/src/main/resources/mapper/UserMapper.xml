@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hk.transportProject.mapper.UserMapper">
+
+    <select id="getUserByUsername" parameterType="String" resultType="com.hk.transportProject.model.User">
+        SELECT USER_NO as userNo, USER_ID as userId, USER_PWD as userPwd, USER_EMAIL as userEmail
+        FROM users
+        WHERE USER_ID = #{username}
+    </select>
+
+    <insert id="insertUser" parameterType="com.hk.transportProject.model.User">
+        INSERT INTO users (USER_NO, USER_ID, USER_PWD, USER_EMAIL)
+        VALUES (#{userNo}, #{userId}, #{userPwd}, #{userEmail})
+    </insert>
+
+</mapper>
+
