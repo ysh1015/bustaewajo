@@ -1,14 +1,15 @@
+import com.github.javaparser.printer.lexicalpreservation.DifferenceElement
+
 plugins {
     alias(libs.plugins.androidApplication)
-    id("com.google.dagger.hilt.android")
-    id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
-
 }
 
 android {
     namespace = "com.hk.transportProject"
     compileSdk = 34
+
+    viewBinding { enable = true }
+    dataBinding { enable = true }
 
     defaultConfig {
         applicationId = "com.hk.transportProject"
@@ -33,12 +34,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    kotlinOptions{
-        jvmTarget = "1.8"
-    }
-    buildFeatures{
-        viewBinding = true
-    }
 }
 
 dependencies {
@@ -50,27 +45,16 @@ dependencies {
     implementation(libs.retrofit)        // Retrofit 의존성 추가
     implementation(libs.retrofit.gson)   // Gson 컨버터 의존성 추가
     implementation(libs.naver.map.sdk)      // 네이버 지도 SDK 의존성 추가
-    implementation(libs.simplexml)
+    implementation(libs.naver.map.service)  // 네이버 지도 위치기반 의존성
+
+    // TikXML 의존성 추가
+    implementation(libs.tikxml.annotation)
+    implementation(libs.tikxml.core)
+    implementation(libs.tikxml.retrofit.converter)
+    implementation(libs.databinding.runtime)
+    annotationProcessor(libs.tikxml.processor)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-
-    // Add Dependency Injection
-    implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-android-compiler:2.48")
-
-    // test
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("com.google.dagger:hilt-android:2.48")
-    androidTestImplementation("com.google.dagger:hilt-android-testing:2.48")
-    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.48")
-
-    testImplementation ("androidx.arch.core:core-testing:2.1.0")
-    testImplementation ("org.mockito:mockito-core:3.12.4")
-    testImplementation ("org.mockito:mockito-inline:3.12.4")
-    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2")
-
 }

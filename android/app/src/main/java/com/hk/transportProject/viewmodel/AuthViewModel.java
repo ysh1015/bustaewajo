@@ -3,10 +3,6 @@ package com.hk.transportProject.viewmodel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.hk.transportProject.model.User;
-import com.hk.transportProject.model.LoginResponse;
-import com.hk.transportProject.repository.AuthRepository;
-
 import javax.inject.Inject;
 
 public class AuthViewModel extends ViewModel {
