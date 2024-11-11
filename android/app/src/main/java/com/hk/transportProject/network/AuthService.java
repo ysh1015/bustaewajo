@@ -1,5 +1,5 @@
 package com.hk.transportProject.network;
-
+/*
 import com.hk.transportProject.model.LoginResponse;
 import com.hk.transportProject.model.User;
 
@@ -13,3 +13,5 @@ public interface AuthService {
     @POST("로그인 할 곳")
     Call<LoginResponse> login(@Body User user);
 }
+
+ */

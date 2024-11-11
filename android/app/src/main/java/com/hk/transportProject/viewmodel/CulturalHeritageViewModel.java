@@ -2,7 +2,7 @@ package com.hk.transportProject.viewmodel;
 
 /*
 public class CulturalHeritageViewModel extends ViewModel {
-    private final MutableLiveData<List<JsonObject>> heritageList = new MutableLiveData<>();
+    private final MutableLiveData<JsonObject heritageList = new MutableLiveData<>();
     private final CulturalHeritageRepository repository;
 
     public CulturalHeritageViewModel() {
