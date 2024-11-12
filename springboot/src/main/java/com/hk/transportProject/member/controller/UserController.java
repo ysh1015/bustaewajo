@@ -1,7 +1,7 @@
-package com.hk.transportProject.controller;
+package com.hk.transportProject.member.controller;
 
-import com.hk.transportProject.model.User;
-import com.hk.transportProject.service.UserService;
+import com.hk.transportProject.member.model.User;
+import com.hk.transportProject.member.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
