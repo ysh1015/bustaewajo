@@ -1,7 +1,7 @@
-package com.hk.transportProject.service;
+package com.hk.transportProject.member.service;
 
-import com.hk.transportProject.mapper.UserMapper;
-import com.hk.transportProject.model.User;
+import com.hk.transportProject.member.mapper.UserMapper;
+import com.hk.transportProject.member.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
