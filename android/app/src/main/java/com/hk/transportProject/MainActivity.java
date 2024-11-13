@@ -54,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+        // 위치 권한 체크 및 요청
+        checkLocationPermission();
+
         // API 서비스 초기화
         apiService = TrafficRetrofitClient.getClient()
             .create(TrafficApiService.class);
@@ -63,12 +66,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else {
             initMapView();
         }
-
+/*
         Button test_btn = (Button) findViewById(R.id.test_bnt);
         test_btn.setOnClickListener(view -> {
             Intent i = new Intent(this, TestActivity.class);
             startActivity(i);
         });
+
+ */
+    }
+
+    private void checkLocationPermission() {
+        // 권한이 없는 경우
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) 
+                != PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) 
+                != PackageManager.PERMISSION_GRANTED) {
+            
+            // 권한 요청 다이얼로그 표시
+            ActivityCompat.requestPermissions(this,
+                new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                },
+                LOCATION_PERMISSION_REQUEST_CODE
+            );
+        } else {
+            // 이미 권한이 있는 경우
+            initMapView();
+        }
     }
 
     private void initMapView() {
@@ -102,37 +128,47 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(@NonNull NaverMap naverMap) {
         this.naverMap = naverMap;
         
-        // BusStopManager 초기화
-        busStopManager = new BusStopManager(this, naverMap);
-        
-        // 위치 소스 설정
+        // 위치 소스 초기화
+        locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
         naverMap.setLocationSource(locationSource);
         
+        // UI 설정
+        UiSettings uiSettings = naverMap.getUiSettings();
+        uiSettings.setLocationButtonEnabled(true);
+        uiSettings.setZoomControlEnabled(true);
+        
         // 위치 추적 모드 설정
-        naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
+        if (hasPermission()) {
+            naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
+        }
+        
+        // BusStopManager 초기화
+        busStopManager = new BusStopManager(this, naverMap);
         
         // 위치 변경 리스너 설정
         naverMap.addOnLocationChangeListener(location -> {
             currentLat = location.getLatitude();
             currentLng = location.getLongitude();
-            
-            // BusStopManager를 통해 주변 버스 정류장 검색
             busStopManager.fetchNearbyBusStops(currentLat, currentLng);
         });
-        
-        // UI 설정
-        UiSettings uiSettings = naverMap.getUiSettings();
-        uiSettings.setLocationButtonEnabled(true);
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // 권한이 허용된 경우
                 initMapView();
+                if (naverMap != null) {
+                    naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
+                }
             } else {
-                Toast.makeText(this, "위치 권한이 필요합니다.", Toast.LENGTH_SHORT).show();
+                // 권한이 거부된 경우
+                Toast.makeText(this, 
+                    "위치 권한이 필요합니다. 설정에서 권한을 허용해주세요.", 
+                    Toast.LENGTH_LONG).show();
             }
         }
     }
