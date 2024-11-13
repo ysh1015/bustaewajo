@@ -142,7 +142,7 @@ public class BusStopManager {
         bottomSheet.show();
     }
     
-    public void clearMarkers() {
+    private void clearMarkers() {
         for (Marker marker : markers) {
             marker.setMap(null);
         }
@@ -157,5 +157,12 @@ public class BusStopManager {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
-
+    public void clearMarkers() {
+        // 지도에서 모든 마커 제거
+        for (Marker marker : markers) {
+            marker.setMap(null);
+        }
+        // 마커 리스트 비우기
+        markers.clear();
+    }
 } 

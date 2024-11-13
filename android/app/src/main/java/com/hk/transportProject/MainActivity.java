@@ -64,11 +64,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             initMapView();
         }
 
-//        Button test_btn = (Button) findViewById(R.id.test_bnt);
-//        test_btn.setOnClickListener(view -> {
-//            Intent i = new Intent(this, TestActivity.class);
-//            startActivity(i);
-//        });
+        Button test_btn = (Button) findViewById(R.id.test_bnt);
+        test_btn.setOnClickListener(view -> {
+            Intent i = new Intent(this, TestActivity.class);
+            startActivity(i);
+        });
     }
 
     private void initMapView() {
