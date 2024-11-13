@@ -4,9 +4,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.hk.transportProject.model.LoginResponse;
-import com.hk.transportProject.model.User;
-import com.hk.transportProject.repository.AuthRepository;
 import com.hk.transportProject.viewmodel.AuthViewModel;
 
 import org.junit.Before;

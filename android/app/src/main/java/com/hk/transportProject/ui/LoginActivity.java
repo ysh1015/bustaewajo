@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+/*
 import com.hk.transportProject.R;
 import com.hk.transportProject.databinding.ActivityLoginBinding;
 import com.hk.transportProject.viewmodel.AuthViewModel;
@@ -44,3 +44,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 }
+
+
+ */
