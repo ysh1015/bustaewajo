@@ -47,6 +47,7 @@ dependencies {
     implementation(libs.naver.map.sdk)      // 네이버 지도 SDK 의존성 추가
     implementation(libs.naver.map.service)  // 네이버 지도 위치기반 의존성
 
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.11.0")
     // TikXML 의존성 추가
     implementation(libs.tikxml.annotation)
     implementation(libs.tikxml.core)
