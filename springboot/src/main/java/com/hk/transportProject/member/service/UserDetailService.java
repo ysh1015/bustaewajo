@@ -3,7 +3,6 @@ package com.hk.transportProject.member.service;
 import com.hk.transportProject.member.domain.User;
 import com.hk.transportProject.member.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,6 @@ public class UserDetailService implements UserDetailsService {
     @Override
     public User loadUserByUsername(String userId) {
         return userRepository.findByUserId(userId)
-                .orElseThrow(() -> new IllegalArgumentException((userId)));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + userId));
     }
 }

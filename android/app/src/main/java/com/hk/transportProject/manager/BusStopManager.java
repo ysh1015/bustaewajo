@@ -142,13 +142,6 @@ public class BusStopManager {
         bottomSheet.show();
     }
     
-    private void clearMarkers() {
-        for (Marker marker : markers) {
-            marker.setMap(null);
-        }
-        markers.clear();
-    }
-    
     private void showError(String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
