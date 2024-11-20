@@ -12,12 +12,16 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.hk.transportProject.AppService.TrafficApiService;
-import com.hk.transportProject.R;
+import com.hk.transportProject.AppService.WeatherApiService;
+import com.hk.transportProject.Retrofit_Intanse.WeatherRetrofitClient;
 import com.hk.transportProject.databinding.ActivityMainBinding;
 import com.hk.transportProject.manager.BusStopManager;
-import com.naver.maps.geometry.LatLng;
+import com.hk.transportProject.repository.WeatherRepository;
+import com.hk.transportProject.ui.WeatherActivity;
+import com.hk.transportProject.viewmodel.WeatherViewModel;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.MapFragment;
@@ -41,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
 
+
+    private Button btn_weather_detail;
+    private WeatherViewModel viewModel;
     private ActivityMainBinding binding;
     private NaverMap naverMap;
     private FusedLocationSource locationSource;
@@ -53,6 +60,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        
+        binding.btnWeatherDetail.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, WeatherActivity.class);
+            startActivity(intent);
+        });
+
+        // 위치 권한 체크 및 요청
+        checkLocationPermission();
 
         // API 서비스 초기화
         apiService = TrafficRetrofitClient.getClient()
@@ -64,11 +79,34 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             initMapView();
         }
 
-//        Button test_btn = (Button) findViewById(R.id.test_bnt);
-//        test_btn.setOnClickListener(view -> {
-//            Intent i = new Intent(this, TestActivity.class);
-//            startActivity(i);
-//        });
+        /*
+        Button test_btn = (Button) findViewById(R.id.test_bnt);
+        test_btn.setOnClickListener(view -> {
+            Intent i = new Intent(this, TestActivity.class);
+            startActivity(i);
+        });*/
+
+    }
+
+    private void checkLocationPermission() {
+        // 권한이 없는 경우
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) 
+                != PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) 
+                != PackageManager.PERMISSION_GRANTED) {
+            
+            // 권한 요청 다이얼로그 표시
+            ActivityCompat.requestPermissions(this,
+                new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                },
+                LOCATION_PERMISSION_REQUEST_CODE
+            );
+        } else {
+            // 이미 권한이 있는 경우
+            initMapView();
+        }
     }
 
     private void initMapView() {
