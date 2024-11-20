@@ -43,20 +43,21 @@
             android:id="@+id/text_weather"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="16dp"
             android:text="날씨 정보 확인"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toRightOf="@id/image_weather"
-            android:layout_marginTop="25dp"
-            android:layout_marginLeft="5dp"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
+
         <Button
             android:id="@+id/btn_weather_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="106dp"
+            android:layout_height="31dp"
+            android:layout_marginTop="8dp"
             android:text="자세히 보기"
-            app:layout_constraintTop_toBottomOf="@id/text_weather"
+            android:textSize="9dp"
             app:layout_constraintLeft_toLeftOf="@id/text_weather"
-            android:layout_marginTop="8dp" />
+            app:layout_constraintTop_toBottomOf="@id/text_weather" />
 
         <Button
             android:id="@+id/test_bnt"

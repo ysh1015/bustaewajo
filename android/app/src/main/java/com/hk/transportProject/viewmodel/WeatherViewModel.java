@@ -8,7 +8,10 @@ import com.hk.transportProject.model.Result;
 import com.hk.transportProject.response.WeatherResponse;
 import com.hk.transportProject.repository.WeatherRepository;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class WeatherViewModel extends ViewModel {
 
@@ -17,10 +20,10 @@ public class WeatherViewModel extends ViewModel {
 
     // Default values for API request
     private final String serviceKey = "xZVyEXB5g2v3CEyT4QnoWdABt2ZHH4jLNuEHT2R7ivPWW6oBFrBUDOdw6mAt9dohXYqIpHc5SPlF5pmgRZ2dFg==";
-    private final String baseDate = "20241119";
-    private final String baseTime = "1700";
-    private final int nx = 60;
-    private final int ny = 127;
+    //private final String baseDate = "20241119";
+    //private final String baseTime = "0500";
+    //private final int nx = 60;
+    //private final int ny = 127;
 
     public WeatherViewModel(WeatherRepository repository) {
         this.repository = repository;
@@ -32,7 +35,7 @@ public class WeatherViewModel extends ViewModel {
     }
 
     // No-argument fetchWeather method for DataBinding
-    public void fetchWeather() {
+    public void fetchWeather(String baseDate, String baseTime, int nx, int ny) {
         weatherText.setValue("Loading...");
 
         repository.getWeather(serviceKey, baseDate, baseTime, nx, ny).observeForever(result -> {
@@ -42,13 +45,32 @@ public class WeatherViewModel extends ViewModel {
                     break;
 
                 case SUCCESS:
+                    /*
                     StringBuilder formattedWeather = new StringBuilder();
                     for (WeatherResponse.Response.Body.Items.Item item : result.data) {
                         formattedWeather.append(getDescription(item.category, item.fcstValue)).append("\n");
                     }
                     weatherText.setValue(formattedWeather.toString());
                     break;
+                    */
+                    StringBuilder formattedWeather = new StringBuilder();
+                    for (WeatherResponse.Response.Body.Items.Item item : result.data) {
+                        formattedWeather.append(getDescription(item.category, item.fcstValue)).append("\n");
+                    }
 
+                    weatherText.setValue(formattedWeather.toString());
+                    break;
+
+                    /*
+                    for (WeatherResponse.Response.Body.Items.Item item : result.data) {
+                        if ("TMP".equals(item.category)) {
+                            String temperature = getDescription(item.category, item.fcstValue);
+                            weatherText.setValue(temperature); // 기온만 설정
+                            break; // 첫 번째 TMP 항목만 처리 후 종료
+                        }
+                    }
+                    break;
+                    */
                 case ERROR:
                     weatherText.setValue("Error: " + result.message);
                     break;
