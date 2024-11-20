@@ -19,7 +19,7 @@ public class WeatherViewModel extends ViewModel {
     private final MutableLiveData<String> weatherText = new MutableLiveData<>();
 
     // Default values for API request
-    private final String serviceKey = "xZVyEXB5g2v3CEyT4QnoWdABt2ZHH4jLNuEHT2R7ivPWW6oBFrBUDOdw6mAt9dohXYqIpHc5SPlF5pmgRZ2dFg==";
+    private final String serviceKey = "";
     //private final String baseDate = "20241119";
     //private final String baseTime = "0500";
     //private final int nx = 60;
