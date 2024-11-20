@@ -49,6 +49,14 @@
             android:layout_marginTop="25dp"
             android:layout_marginLeft="5dp"
             />
+        <Button
+            android:id="@+id/btn_weather_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="자세히 보기"
+            app:layout_constraintTop_toBottomOf="@id/text_weather"
+            app:layout_constraintLeft_toLeftOf="@id/text_weather"
+            android:layout_marginTop="8dp" />
 
         <Button
             android:id="@+id/test_bnt"
