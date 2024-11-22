@@ -1,4 +1,6 @@
 import com.github.javaparser.printer.lexicalpreservation.DifferenceElement
+import java.util.Properties
+import java.io.FileInputStream
 
 plugins {
     alias(libs.plugins.androidApplication)
@@ -13,12 +15,26 @@ android {
 
     defaultConfig {
         applicationId = "com.hk.transportProject"
-        minSdk = 28
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // API 키 로드
+        val properties = Properties()
+        val localPropertiesFile = project.rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            properties.load(FileInputStream(localPropertiesFile))
+            buildConfigField(
+                "String",
+                "TRAFFIC_API_KEY",
+                "\"${properties.getProperty("TRAFFIC_API_KEY", "")}\""
+            )
+        } else {
+            buildConfigField("String", "TRAFFIC_API_KEY", "\"g3s/sU96JysexYpblDXIc4+V33peeadeoSi2BpBF5ej8XHRQtmPphiSA4dkF3s7b0CF5gDDO6/N2/weFSIDgCA==\"")
+        }
     }
 
     buildTypes {
@@ -33,6 +49,10 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 }
 
