@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+// 교통 정보 응답(내 위치 500m 내 정류장 정보)
 public class TrafficApiResponse {
     @SerializedName("response")
     private Response response;

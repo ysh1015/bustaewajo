@@ -28,6 +28,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import okhttp3.ResponseBody;
 import com.hk.transportProject.security.ApiKeyStore;
+import com.hk.transportProject.AppService.BusStationRoutesApi;
+import com.hk.transportProject.Retrofit_Intanse.BusStationRoutesClient;
+import com.hk.transportProject.response.BusRouteResponse;
+import android.app.AlertDialog;
 
 public class BusStopManager {
     private final Context context;
@@ -158,31 +162,87 @@ public class BusStopManager {
     private void showBusStopInfo(TrafficApiResponse.BusStation station) {
         if (context == null) return;
         
-        BottomSheetDialog bottomSheet = new BottomSheetDialog(context);
+        BusStationRoutesApi routesApi = BusStationRoutesClient.getClient()
+            .create(BusStationRoutesApi.class);
+        
         try {
-            View bottomSheetView = LayoutInflater.from(context)
-                .inflate(R.layout.bottom_sheet_bus_stop, null);
-            
-            TextView stationNameText = bottomSheetView.findViewById(R.id.station_name);
-            TextView stationInfoText = bottomSheetView.findViewById(R.id.station_info);
-            
-            if (stationNameText != null && stationInfoText != null) {
-                stationNameText.setText(station.getNodeName());
-                
-                String stationInfo = String.format(
-                    "정류소 번호: %d\n정류소 ID: %s\n도시 코드: %d",
-                    station.getNodeNo(),
-                    station.getNodeId(),
-                    station.getCityCode()
-                );
-                stationInfoText.setText(stationInfo);
-                
-                bottomSheet.setContentView(bottomSheetView);
-                bottomSheet.show();
+            String apiKey = apiKeyStore.getApiKey();
+            if (apiKey == null) {
+                showError("API 키를 찾을 수 없습니다.");
+                return;
             }
+
+            RetryableCallback<BusRouteResponse> retryableCallback = new RetryableCallback<>(
+                new Callback<BusRouteResponse>() {
+                    @Override
+                    public void onResponse(Call<BusRouteResponse> call, Response<BusRouteResponse> response) {
+                        try {
+                            if (response.isSuccessful() && response.body() != null && response.body().isSuccessful()) {
+                                List<BusRouteResponse.BusRoute> routes = response.body()
+                                    .getResponse().getBody().getItems().getRoutes();
+                                
+                                StringBuilder routeInfo = new StringBuilder();
+                                routeInfo.append("정류소: ").append(station.getNodeName())
+                                        .append("\n정류소 번호: ").append(station.getNodeNo())
+                                        .append("\n경유 노선:\n");
+                                
+                                if (routes != null && !routes.isEmpty()) {
+                                    for (BusRouteResponse.BusRoute route : routes) {
+                                        String routeType = "";
+                                        switch (route.getRouteType()) {
+                                            case "1": routeType = "급행"; break;
+                                            case "2": routeType = "간선"; break;
+                                            case "3": routeType = "지선"; break;
+                                            case "4": routeType = "마을"; break;
+                                            default: routeType = "일반"; break;
+                                        }
+                                        routeInfo.append(routeType)
+                                                .append(" ")
+                                                .append(route.getRouteNo())
+                                                .append("번\n");
+                                    }
+                                } else {
+                                    routeInfo.append("운행 노선 없음");
+                                }
+                                
+                                new AlertDialog.Builder(context)
+                                    .setTitle("정류소 정보")
+                                    .setMessage(routeInfo.toString())
+                                    .setPositiveButton("확인", null)
+                                    .show();
+                            } else {
+                                String errorMsg = response.errorBody() != null ? 
+                                    "API 오류: " + getErrorBodyString(response.errorBody()) :
+                                    "노선 정보를 가져올 수 없습니다.";
+                                showError(errorMsg);
+                                Log.e("BusStopManager", "Route API error: " + response.code());
+                            }
+                        } catch (Exception e) {
+                            Log.e("BusStopManager", "Error processing route response", e);
+                            showError("노선 정보 처리 중 오류가 발생했습니다.");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<BusRouteResponse> call, Throwable t) {
+                        Log.e("BusStopManager", "Route API call failed", t);
+                        showError("노선 정보 조회에 실패했습니다.");
+                    }
+                },
+                3  // 최대 재시도 횟수
+            );
+
+            routesApi.getStationRoutes(
+                apiKey,
+                station.getCityCode(),
+                station.getNodeId(),
+                10,
+                1,
+                "json"
+            ).enqueue(retryableCallback);
         } catch (Exception e) {
-            Log.e("BusStopManager", "Error showing bus stop info", e);
-            showError("정류장 정보를 표시할 수 없습니다.");
+            Log.e("BusStopManager", "Error fetching routes", e);
+            showError("노선 정보를 조회할 수 없습니다.");
         }
     }
     
