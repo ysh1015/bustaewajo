@@ -2,11 +2,9 @@ package com.hk.transportProject.Retrofit_Intanse;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonDeserializationContext;
+import com.hk.transportProject.deserializer.TrafficApiResponseDeserializer;
+import com.hk.transportProject.response.TrafficApiResponse;
 
-import java.lang.reflect.Type;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -54,7 +52,7 @@ public class TrafficRetrofitClient {
 
                     Gson gson = new GsonBuilder()
                             .setLenient()
-                            .registerTypeAdapter(String.class, new StringDeserializer())
+                            .registerTypeAdapter(TrafficApiResponse.class, new TrafficApiResponseDeserializer())
                             .create();
 
                     retrofit = new Retrofit.Builder()
@@ -66,18 +64,6 @@ public class TrafficRetrofitClient {
             }
         }
         return retrofit;
-    }
-
-    // 문자열 응답 처리를 위한 커스텀 Deserializer
-    private static class StringDeserializer implements JsonDeserializer<String> {
-        @Override
-        public String deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
-            try {
-                return json.getAsString();
-            } catch (Exception e) {
-                return null;
-            }
-        }
     }
 }
 
