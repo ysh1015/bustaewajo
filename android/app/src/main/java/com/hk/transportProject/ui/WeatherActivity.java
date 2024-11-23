@@ -72,8 +72,8 @@ public class WeatherActivity extends AppCompatActivity {
                         if (location != null) {
                             double latitude = location.getLatitude();
                             double longitude = location.getLongitude();
-
-                            //String baseDate = "20241120";
+                            // 고정값으로 테스트
+                            //String baseDate = "20241122";
                             //String baseTime = "2000";
                             //int nx = 60;
                             //int ny = 127;
@@ -93,7 +93,7 @@ public class WeatherActivity extends AppCompatActivity {
                     .addOnFailureListener(e -> Toast.makeText(this, "위치 요청 실패: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         }
     }
-
+    // 현재 날짜를 가져오는 메소드
     private String getBaseDate() {
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -108,7 +108,7 @@ public class WeatherActivity extends AppCompatActivity {
 
         return sdf.format(calendar.getTime());
     }
-
+    // 현재 시간을 가져오는 메소드
     private String getBaseTime() {
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -130,7 +130,7 @@ public class WeatherActivity extends AppCompatActivity {
         return String.format(Locale.getDefault(), "%02d00", closestTime);
     }
 
-
+    // 좌표 계산 메소드 반환값[x,y]
     private int[] convertToGrid(double lat, double lon) {
         double RE = 6371.00877;
         double GRID = 5.0;

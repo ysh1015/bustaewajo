@@ -19,7 +19,7 @@ public class WeatherViewModel extends ViewModel {
     private final MutableLiveData<String> weatherText = new MutableLiveData<>();
 
     // Default values for API request
-    private final String serviceKey = "";
+    private final String serviceKey = "xZVyEXB5g2v3CEyT4QnoWdABt2ZHH4jLNuEHT2R7ivPWW6oBFrBUDOdw6mAt9dohXYqIpHc5SPlF5pmgRZ2dFg==";
     //private final String baseDate = "20241119";
     //private final String baseTime = "0500";
     //private final int nx = 60;
@@ -45,14 +45,6 @@ public class WeatherViewModel extends ViewModel {
                     break;
 
                 case SUCCESS:
-                    /*
-                    StringBuilder formattedWeather = new StringBuilder();
-                    for (WeatherResponse.Response.Body.Items.Item item : result.data) {
-                        formattedWeather.append(getDescription(item.category, item.fcstValue)).append("\n");
-                    }
-                    weatherText.setValue(formattedWeather.toString());
-                    break;
-                    */
                     StringBuilder formattedWeather = new StringBuilder();
                     for (WeatherResponse.Response.Body.Items.Item item : result.data) {
                         formattedWeather.append(getDescription(item.category, item.fcstValue)).append("\n");
