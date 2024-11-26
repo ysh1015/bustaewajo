@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        
+
         binding.btnWeatherDetail.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, WeatherActivity.class);
             startActivity(intent);
