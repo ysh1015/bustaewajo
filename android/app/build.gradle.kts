@@ -38,6 +38,7 @@ android {
 
 dependencies {
 
+    implementation("androidx.webkit:webkit:1.8.0")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
