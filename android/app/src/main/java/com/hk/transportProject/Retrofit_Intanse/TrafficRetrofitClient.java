@@ -19,8 +19,8 @@ public class TrafficRetrofitClient {
     private static volatile Retrofit retrofit = null;
     private static final Object LOCK = new Object();
 
-    private static final int MAX_RETRIES = 3;
-    private static final int TIMEOUT_SECONDS = 30;
+    private static final int MAX_RETRIES = 4;
+    private static final int TIMEOUT_SECONDS = 80;
 
     private TrafficRetrofitClient() {
         // Private constructor to prevent instantiation

@@ -110,7 +110,7 @@ public class BusStopManager {
             );
 
             apiService.getTrafficInfo(
-                apiKey,
+                "g3s/sU96JysexYpblDXIc4+V33peeadeoSi2BpBF5ej8XHRQtmPphiSA4dkF3s7b0CF5gDDO6/N2/weFSIDgCA==",
                 1,
                 10,
                 "json",
@@ -237,7 +237,7 @@ public class BusStopManager {
             );
 
             routesApi.getStationRoutes(
-                    apiKey,
+                    "g3s/sU96JysexYpblDXIc4+V33peeadeoSi2BpBF5ej8XHRQtmPphiSA4dkF3s7b0CF5gDDO6/N2/weFSIDgCA==",
                     station.getCityCode(),
                     station.getNodeId(),
                     10,
