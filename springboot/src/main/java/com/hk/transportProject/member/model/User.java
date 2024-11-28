@@ -1,4 +1,4 @@
-package com.hk.transportProject.model;
+package com.hk.transportProject.member.model;
 
 public class User {
     private String userNo;

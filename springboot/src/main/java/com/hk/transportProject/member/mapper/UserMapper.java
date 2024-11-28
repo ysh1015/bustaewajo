@@ -1,6 +1,6 @@
-package com.hk.transportProject.mapper;
+package com.hk.transportProject.member.mapper;
 
-import com.hk.transportProject.model.User;
+import com.hk.transportProject.member.model.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

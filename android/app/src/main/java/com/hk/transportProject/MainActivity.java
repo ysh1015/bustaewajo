@@ -13,12 +13,16 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.hk.transportProject.AppService.TrafficApiService;
-import com.hk.transportProject.R;
+import com.hk.transportProject.AppService.WeatherApiService;
+import com.hk.transportProject.Retrofit_Intanse.WeatherRetrofitClient;
 import com.hk.transportProject.databinding.ActivityMainBinding;
 import com.hk.transportProject.manager.BusStopManager;
-import com.naver.maps.geometry.LatLng;
+import com.hk.transportProject.repository.WeatherRepository;
+import com.hk.transportProject.ui.WeatherActivity;
+import com.hk.transportProject.viewmodel.WeatherViewModel;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.MapFragment;
@@ -44,6 +48,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
 
+
+    private Button btn_weather_detail;
+    private WeatherViewModel viewModel;
     private ActivityMainBinding binding;
     private NaverMap naverMap;
     private FusedLocationSource locationSource;
@@ -57,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+        API_service
         // API 키 초기화
         try {
             ApiKeyStore apiKeyStore = new ApiKeyStore(this);
@@ -66,6 +74,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } catch (Exception e) {
             Log.e("MainActivity", "API 키 초기화 실패", e);
         }
+
+        binding.btnWeatherDetail.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, WeatherActivity.class);
+            startActivity(intent);
+        });
+        main
 
         // 위치 권한 체크 및 요청
         checkLocationPermission();
@@ -79,14 +93,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else {
             initMapView();
         }
-/*
+        /*
         Button test_btn = (Button) findViewById(R.id.test_bnt);
         test_btn.setOnClickListener(view -> {
             Intent i = new Intent(this, TestActivity.class);
             startActivity(i);
-        });
+        });*/
 
- */
     }
 
     private void checkLocationPermission() {
