@@ -1,10 +1,6 @@
 package com.hk.transportProject.AppService;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.hk.transportProject.response.TrafficApiResponse;
-
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
