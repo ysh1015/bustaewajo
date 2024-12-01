@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.hk.transportProject.Retrofit_Intanse.WeatherRetrofitClient;
 import com.hk.transportProject.databinding.ActivityMainBinding;
 import com.hk.transportProject.manager.BusStopManager;
 import com.hk.transportProject.repository.WeatherRepository;
+import com.hk.transportProject.ui.LoginActivity;
 import com.hk.transportProject.ui.WeatherActivity;
 import com.hk.transportProject.viewmodel.WeatherViewModel;
 import com.naver.maps.map.LocationTrackingMode;
@@ -80,6 +82,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             startActivity(intent);
         });
         main
+
+        binding.btnLogin.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // 위치 권한 체크 및 요청
         checkLocationPermission();
