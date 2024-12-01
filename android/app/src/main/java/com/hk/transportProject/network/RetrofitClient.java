@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     // 백엔드 서버 URL 필요
-    private static final String BASE_URL = "http --";
+    private static final String BASE_URL = "http://localhost:8085/login";
     private static Retrofit retrofit;
 
     public static Retrofit getRetrofitInstance(){
