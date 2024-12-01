@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        API_service
         // API 키 초기화
         try {
             ApiKeyStore apiKeyStore = new ApiKeyStore(this);
@@ -81,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Intent intent = new Intent(MainActivity.this, WeatherActivity.class);
             startActivity(intent);
         });
-        main
 
         binding.btnLogin.setOnClickListener(new View.OnClickListener(){
             @Override
