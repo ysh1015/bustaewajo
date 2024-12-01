@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -35,6 +36,8 @@ import com.hk.transportProject.Retrofit_Intanse.TrafficRetrofitClient;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hk.transportProject.security.ApiKeyStore;
+
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 5000;
 
@@ -63,10 +66,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+        API_service
+        // API 키 초기화
+        try {
+            ApiKeyStore apiKeyStore = new ApiKeyStore(this);
+            if (apiKeyStore.getApiKey() == null) {
+                apiKeyStore.storeApiKey(BuildConfig.TRAFFIC_API_KEY);
+            }
+        } catch (Exception e) {
+            Log.e("MainActivity", "API 키 초기화 실패", e);
+        }
+
         binding.btnWeatherDetail.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, WeatherActivity.class);
             startActivity(intent);
         });
+        main
 
         binding.btnLogin.setOnClickListener(new View.OnClickListener(){
             @Override

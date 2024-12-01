@@ -12,6 +12,10 @@ public class TrafficApiResponse {
     @SerializedName("response")
     private Response response;
 
+    public void setResponse(Response response) {
+        this.response = response;
+    }
+
     public Response getResponse() {
         return response;
     }
@@ -21,6 +25,14 @@ public class TrafficApiResponse {
         private Header header;
         @SerializedName("body")
         private Body body;
+
+        public void setHeader(Header header) {
+            this.header = header;
+        }
+
+        public void setBody(Body body) {
+            this.body = body;
+        }
 
         public Header getHeader() {
             return header;
