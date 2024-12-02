@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     // 현재 위치 좌표를 저장할 변수 추가
     private double currentLat;
     private double currentLng;
-    
+
     private static final String[] PERMISSIONS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        API_service
         // API 키 초기화
         try {
             ApiKeyStore apiKeyStore = new ApiKeyStore(this);
@@ -81,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Intent intent = new Intent(MainActivity.this, WeatherActivity.class);
             startActivity(intent);
         });
-        main
 
         binding.btnLogin.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -96,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // API 서비스 초기화
         apiService = TrafficRetrofitClient.getClient()
-            .create(TrafficApiService.class);
+                .create(TrafficApiService.class);
 
         if (!hasPermission()) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, LOCATION_PERMISSION_REQUEST_CODE);
@@ -114,18 +112,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void checkLocationPermission() {
         // 권한이 없는 경우
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED ||
-            ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) 
-                != PackageManager.PERMISSION_GRANTED) {
-            
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+
             // 권한 요청 다이얼로그 표시
             ActivityCompat.requestPermissions(this,
-                new String[]{
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                },
-                LOCATION_PERMISSION_REQUEST_CODE
+                    new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                    },
+                    LOCATION_PERMISSION_REQUEST_CODE
             );
         } else {
             // 이미 권한이 있는 경우
@@ -163,24 +161,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
         this.naverMap = naverMap;
-        
+
         // 위치 소스 초기화
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
         naverMap.setLocationSource(locationSource);
-        
+
         // UI 설정
         UiSettings uiSettings = naverMap.getUiSettings();
         uiSettings.setLocationButtonEnabled(true);
         uiSettings.setZoomControlEnabled(true);
-        
+
         // 위치 추적 모드 설정
         if (hasPermission()) {
             naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
         }
-        
+
         // BusStopManager 초기화
         busStopManager = new BusStopManager(this, naverMap);
-        
+
         // 위치 변경 리스너 설정
         naverMap.addOnLocationChangeListener(location -> {
             currentLat = location.getLatitude();
@@ -192,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        
+
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // 권한이 허용된 경우
@@ -202,9 +200,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             } else {
                 // 권한이 거부된 경우
-                Toast.makeText(this, 
-                    "위치 권한이 필요합니다. 설정에서 권한을 허용해주세요.", 
-                    Toast.LENGTH_LONG).show();
+                Toast.makeText(this,
+                        "위치 권한이 필요합니다. 설정에서 권한을 허용해주세요.",
+                        Toast.LENGTH_LONG).show();
             }
         }
     }

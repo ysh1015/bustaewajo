@@ -1,11 +1,15 @@
 package com.hk.transportProject.member.mapper;
 
-import com.hk.transportProject.member.model.User;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import com.hk.transportProject.member.model.User;
 
 @Mapper
 public interface UserMapper {
-    User getUserByUsername(@Param("username") String username);
-    void insertUser(User user);
+    User findByUserId(String userId);
+    void save(User user);
+    User findByUserIdAndEmail(String userId, String userEmail);
+    void updatePassword(User user);
+    void updateUserInfo(User user);
+    void updateEmail(User user);
+    void deleteUser(User user);
 }
