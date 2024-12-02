@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>메인 페이지</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+    <div class="main-container">
+        <div class="main-header">
+            <h1>환영합니다!</h1>
+        </div>
+        <div class="button-group">
+            <a href="/user/change-userInfo" class="menu-button info-button">회원정보 수정</a>
+            <a href="/user/change-password" class="menu-button password-button">비밀번호 변경</a>
+            <button onclick="showLogoutModal()" class="menu-button logout-button">로그아웃</button>
+            <a href="/user/delete" class="menu-button delete-button">회원 탈퇴</a>
+        </div>
+    </div>
+
+    <!-- 로그아웃 확인 모달 -->
+    <div id="logoutModal" class="modal">
+        <div class="modal-content">
+            <h3>로그아웃</h3>
+            <p>정말 로그아웃 하시겠습니까?</p>
+            <div class="modal-buttons">
+                <form th:action="@{/logout}" method="post" style="display: inline;">
+                    <button type="submit" class="modal-button confirm-button">확인</button>
+                </form>
+                <button onclick="hideLogoutModal()" class="modal-button cancel-button">취소</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 비밀번호 변경 성공 모달 -->
+    <div id="passwordChangeModal" class="modal" th:if="${param.passwordChanged}">
+        <div class="modal-content">
+            <h3>알림</h3>
+            <p>비밀번호가 성공적으로 변경되었습니다.</p>
+            <div class="modal-buttons">
+                <button onclick="hidePasswordChangeModal()" class="modal-button confirm-button">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 회원 탈퇴 확인 모달 -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <h3>회원 탈퇴</h3>
+            <p>정말 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.</p>
+            <div class="modal-buttons">
+                <form th:action="@{/user/delete}" method="post" style="display: inline;">
+                    <button type="submit" class="modal-button confirm-button">확인</button>
+                </form>
+                <button onclick="hideDeleteModal()" class="modal-button cancel-button">취소</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'block';
+        }
+
+        function hideLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'none';
+        }
+
+        function hidePasswordChangeModal() {
+            document.getElementById('passwordChangeModal').style.display = 'none';
+        }
+
+        function showDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'block';
+        }
+
+        function hideDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+
+        window.onload = function() {
+            if (new URLSearchParams(window.location.search).has('passwordChanged')) {
+                document.getElementById('passwordChangeModal').style.display = 'block';
+            }
+        }
+
+        window.onclick = function(event) {
+            var logoutModal = document.getElementById('logoutModal');
+            var passwordModal = document.getElementById('passwordChangeModal');
+            var deleteModal = document.getElementById('deleteModal');
+            if (event.target == logoutModal) {
+                hideLogoutModal();
+            }
+            if (event.target == passwordModal) {
+                hidePasswordChangeModal();
+            }
+            if (event.target == deleteModal) {
+                hideDeleteModal();
+            }
+        }
+    </script>
+</body>
+</html> 
