@@ -27,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // 스프링 부트 로그인 페이지 URL 로드
         webView.loadUrl("http://10.0.2.2:8085/login");
+        webView.loadUrl("http://172.30.1.20:8085/login");
     }
 }
 
